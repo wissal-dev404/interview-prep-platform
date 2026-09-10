@@ -12,7 +12,7 @@ const generateInterview = async (req, res) => {
     const userId = req.user.id;
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: 'groq/compound',
       messages: [
         {
           role: 'user',
