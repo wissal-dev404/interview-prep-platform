@@ -11,12 +11,10 @@ function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
-    
     if (!token) {
       navigate('/login');
       return;
     }
-
     setUser(JSON.parse(userData));
     fetchInterviews(token);
   }, []);
@@ -39,6 +37,9 @@ function Dashboard() {
     navigate('/login');
   };
 
+  // Calculate statistics
+  const totalInterviews = interviews.length;
+
   return (
     <div style={styles.container}>
       <div style={styles.header}>
@@ -50,6 +51,23 @@ function Dashboard() {
       </div>
 
       <div style={styles.main}>
+        {/* Stats Section */}
+        <div style={styles.statsGrid}>
+          <div style={styles.statCard}>
+            <h2 style={styles.statNumber}>{totalInterviews}</h2>
+            <p style={styles.statLabel}>Total Interviews</p>
+          </div>
+          <div style={styles.statCard}>
+            <h2 style={styles.statNumber}>5</h2>
+            <p style={styles.statLabel}>Questions Per Interview</p>
+          </div>
+          <div style={styles.statCard}>
+            <h2 style={styles.statNumber}>{totalInterviews * 5}</h2>
+            <p style={styles.statLabel}>Total Questions Answered</p>
+          </div>
+        </div>
+
+        {/* Hero Section */}
         <div style={styles.hero}>
           <h2 style={styles.heroTitle}>Ready to practice? 💪</h2>
           <p style={styles.heroSubtitle}>Generate AI-powered interview questions for your dream job</p>
@@ -58,9 +76,9 @@ function Dashboard() {
           </button>
         </div>
 
+        {/* History Section */}
         <div style={styles.historySection}>
           <h3 style={styles.sectionTitle}>Your Interview History</h3>
-          
           {loading ? (
             <p style={styles.loading}>Loading...</p>
           ) : interviews.length === 0 ? (
@@ -101,10 +119,20 @@ const styles = {
     color: '#888', cursor: 'pointer'
   },
   main: { maxWidth: '800px', margin: '0 auto', padding: '40px 20px' },
+  statsGrid: {
+    display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '16px', marginBottom: '32px'
+  },
+  statCard: {
+    backgroundColor: '#1a1a1a', borderRadius: '12px',
+    padding: '24px', border: '1px solid #333', textAlign: 'center'
+  },
+  statNumber: { color: '#6366f1', fontSize: '36px', margin: '0 0 8px 0' },
+  statLabel: { color: '#888', margin: 0, fontSize: '14px' },
   hero: {
     backgroundColor: '#1a1a1a', borderRadius: '12px',
     padding: '40px', textAlign: 'center',
-    border: '1px solid #333', marginBottom: '40px'
+    border: '1px solid #333', marginBottom: '32px'
   },
   heroTitle: { color: '#ffffff', fontSize: '28px', marginBottom: '8px' },
   heroSubtitle: { color: '#888', marginBottom: '24px' },
